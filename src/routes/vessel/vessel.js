@@ -10,39 +10,6 @@ const config = global.gConfig;
 
 const _c_central_db = config.db_config.central_db;
 
-router.get("/", async (req, res) => {
-  const limit = Number(req.query.limit);
-  const startkey = req.query.startkey;
-  const endkey = req.query.endkey;
-  const database = _c_evito_db;
-
-  if (startkey && !endkey) {
-    await Vessel.getAll(res, VYA_PRODUCT_PRT_ID, database, limit, startkey);
-  } else if (startkey && endkey) {
-    await Vessel.getAll(
-      res,
-      VYA_PRODUCT_PRT_ID,
-      database,
-      limit,
-      startkey,
-      endkey
-    );
-  } else {
-    await Vessel.getAll(res, VYA_PRODUCT_PRT_ID, database, limit);
-  }
-});
-
-// To get the product by id
-router.get("/:id", async (req, res) => {
-  // const accessList = ["ADMIN"];
-  const database = _c_evito_db;
-
-  const id = req.params.id;
-  const key = `${VYA_PRODUCT_PRT_ID}::${id}`;
-
-  await Vessel.getById(res, key, VYA_PRODUCT_PRT_ID, database);
-});
-
 router.post("/vessel", async (req, res) => {
   const payload = req.user;
   const database = payload.cid;
@@ -54,32 +21,31 @@ router.post("/vessel", async (req, res) => {
   }
 
   const extData = Object.assign({}, data, {
-    userId: payload.userId,
-    cid: payload.cid,
+    some: "some extended data",
   });
 
   await Vessel.create(res, payload, extData, VESSEL_PRT_ID, database);
 });
 
 router.get("/vessel", async (req, res) => {
-  const payload = req.user;
-  const limit = req.query.limit ? req.query.limit : "25";
-  const startkey = req.query.startkey;
-  const endkey = req.query.endkey;
-  const database = payload.cid;
-
-  if (startkey && !endkey) {
-    await Vessel.getAll(res, VESSEL_PRT_ID, database, limit, startkey);
-  } else if (startkey && endkey) {
-    await Vessel.getAll(res, VESSEL_PRT_ID, database, limit, startkey, endkey);
-  } else {
-    await Vessel.getAll(res, VESSEL_PRT_ID, database, limit);
+  const database = _c_evito_db;
+  try {
+    return await Vessel.getAll(res, VYA_PRODUCT_PRT_ID, database);
+  } catch {
+    return res.status(500).json({ error: "Something went wrong" });
   }
 });
 
-router.get("/vessel/:id", async (req, res) => {
-  const payload = req.user;
+router.get("/:id", async (req, res) => {
+  const database = _c_evito_db;
 
+  const id = req.params.id;
+  const key = `${VYA_PRODUCT_PRT_ID}::${id}`;
+
+  await Vessel.getById(res, key, VYA_PRODUCT_PRT_ID, database);
+});
+
+router.get("/vessel/:id", async (req, res) => {
   const database = _c_central_db;
 
   const id = req.params.id;
@@ -89,8 +55,6 @@ router.get("/vessel/:id", async (req, res) => {
 });
 
 router.put("/vessel/:id", async (req, res) => {
-  const payload = req.user;
-
   const database = _c_central_db;
 
   const id = req.params.id;
@@ -100,7 +64,6 @@ router.put("/vessel/:id", async (req, res) => {
 });
 
 router.delete("/vessel/:id", async (req, res) => {
-  const payload = req.user;
   const database = _c_central_db;
 
   const id = req.params.id;

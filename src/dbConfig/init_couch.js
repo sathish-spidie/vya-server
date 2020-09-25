@@ -4,7 +4,7 @@ import "../../config/config";
 
 const config = global.gConfig;
 
-const central_Db = config.db_config.inevito_evito_db;
+const central_Db = config.db_config.central_db;
 
 const databases = [central_Db];
 

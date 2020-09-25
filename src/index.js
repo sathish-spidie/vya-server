@@ -32,8 +32,6 @@ initCouch(function (err) {
 dotenv.config();
 
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cookieParser());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
