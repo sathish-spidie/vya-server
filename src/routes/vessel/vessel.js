@@ -27,9 +27,9 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const database = _c_evito_db;
+  const database = _c_central_db;
   try {
-    return await Vessel.getAll(res, VYA_PRODUCT_PRT_ID, database);
+    return await Vessel.getAll(res, VESSEL_PRT_ID, database);
   } catch {
     return res.status(500).json({ error: "Something went wrong" });
   }

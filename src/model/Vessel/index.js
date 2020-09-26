@@ -33,7 +33,6 @@ const Product = {
     try {
       response = await db.partitionedList(partitionId, {
         include_docs: true,
-        limit,
       });
       return res.json({ response });
     } catch (err) {
