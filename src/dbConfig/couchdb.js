@@ -6,7 +6,7 @@ const config = global.gConfig;
 
 const url = config.db_config.db_url;
 const port = config.db_config.db_port;
-const user = config.db_user;
+const user = config.db_config.db_user;
 const pass = config.db_config.db_pass;
 const protocol = config.db_config.db_protocol;
 

@@ -1,14 +1,13 @@
 require("express-group-routes");
 import "../config/config";
-// import config from "config";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import passport from "passport";
 import bodyParser from "body-parser";
+// import passport from "passport";
 
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+// import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 // ********************* Routes ************************** //
 import timestamp from "./midlewares/timestamps.js";

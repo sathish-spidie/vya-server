@@ -1,6 +1,6 @@
 import couch from "./couchdb";
 
-export const createDb = async dbName => {
+export const createDb = async (dbName) => {
   try {
     await couch.db.create(dbName, { partitioned: true });
     return true;

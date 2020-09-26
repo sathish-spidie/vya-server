@@ -3,7 +3,7 @@ import nano from "../../dbConfig/couchdb";
 import { parsePartitionId } from "../../utils/sat";
 
 const Product = {
-  create: async function (res, payload, data, partitionId, database) {
+  create: async function (res, data, partitionId, database) {
     const db = nano.use(database);
 
     // yup schema Validation
@@ -40,7 +40,6 @@ const Product = {
       return res.json({ error: "doc not found", err });
     }
   },
-
   getAllES: async function (
     res,
     partitionId,
@@ -85,7 +84,6 @@ const Product = {
     let response;
     let modTarget;
     let data = {};
-    const payload = req.user;
 
     for (let [key, value] of Object.entries(req.body)) {
       data[key] = value;
@@ -94,11 +92,7 @@ const Product = {
     modTarget = await this.findOneById(res, id, partitionId, database);
 
     try {
-      response = await db.insert(
-        Object.assign({}, modTarget.docs[0], data, {
-          userId: payload.userId,
-        })
-      );
+      response = await db.insert(Object.assign({}, modTarget.docs[0], data));
       res.json({ req: req.body, response });
     } catch (err) {
       res.json({ modTarget, response, err });

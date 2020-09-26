@@ -10,9 +10,8 @@ const config = global.gConfig;
 
 const _c_central_db = config.db_config.central_db;
 
-router.post("/vessel", async (req, res) => {
-  const payload = req.user;
-  const database = payload.cid;
+router.post("/", async (req, res) => {
+  const database = _c_central_db;
 
   let data = {};
   // populating data from request body
@@ -24,10 +23,10 @@ router.post("/vessel", async (req, res) => {
     some: "some extended data",
   });
 
-  await Vessel.create(res, payload, extData, VESSEL_PRT_ID, database);
+  await Vessel.create(res, extData, VESSEL_PRT_ID, database);
 });
 
-router.get("/vessel", async (req, res) => {
+router.get("/", async (req, res) => {
   const database = _c_evito_db;
   try {
     return await Vessel.getAll(res, VYA_PRODUCT_PRT_ID, database);
@@ -37,15 +36,6 @@ router.get("/vessel", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const database = _c_evito_db;
-
-  const id = req.params.id;
-  const key = `${VYA_PRODUCT_PRT_ID}::${id}`;
-
-  await Vessel.getById(res, key, VYA_PRODUCT_PRT_ID, database);
-});
-
-router.get("/vessel/:id", async (req, res) => {
   const database = _c_central_db;
 
   const id = req.params.id;
@@ -54,7 +44,7 @@ router.get("/vessel/:id", async (req, res) => {
   await Vessel.getById(res, key, VESSEL_PRT_ID, database);
 });
 
-router.put("/vessel/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const database = _c_central_db;
 
   const id = req.params.id;
@@ -63,13 +53,13 @@ router.put("/vessel/:id", async (req, res) => {
   await Vessel.modById(res, req, key, VESSEL_PRT_ID, database);
 });
 
-router.delete("/vessel/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const database = _c_central_db;
 
   const id = req.params.id;
   const key = `${VESSEL_PRT_ID}::${id}`;
 
-  await Vessel.delById(res, payload, key, VESSEL_PRT_ID, database);
+  await Vessel.delById(res, key, VESSEL_PRT_ID, database);
 });
 
 export default router;
